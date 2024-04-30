@@ -12,7 +12,7 @@ The Steam Games API provides access to a dataset of Steam games predating 2019. 
 ## 📊 Data Sources
 
 This API uses data collected from:
-- [Steam Store Games (Clean Dataset)](https://www.kaggle.com/datasets/nikdavis/steam-store-game)
+- [Steam Store Games (Clean Dataset)](https://www.kaggle.com/datasets/nikdavis/steam-store-games)
 - Steam APIs
 
 The data provides insights into various aspects of games on the store, such as game genre and the estimated number of owners. More details can be found in the API under the "Support" and "More_info" schemas.
