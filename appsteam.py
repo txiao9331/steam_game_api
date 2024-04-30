@@ -5,7 +5,6 @@ import pymysql
 import os
 import math
 from collections import defaultdict
-from flask_basicauth import BasicAuth
 from flask_swagger_ui import get_swaggerui_blueprint
 # from flask_restplus import Api, Resource, Namespace
 import json
@@ -19,12 +18,17 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 app.register_blueprint(swaggerui_blueprint)
 
 
+def load_config():
+    with open('config.json') as config_file:
+        return json.load(config_file)
+
 def create_db_conn():
-    db_conn = pymysql.connect(host="localhost"
-                            , user="root"
-                            , password=os.getenv('mysql_xt')
-                            , database="steam_store_games" 
-                            , cursorclass=pymysql.cursors.DictCursor)
+    config = load_config()
+    db_conn = pymysql.connect(host="localhost",
+                            user="root",
+                            password=config.get('MYSQL_PASSWORD'),
+                            database="steam_store_games",
+                            cursorclass=pymysql.cursors.DictCursor)
     return db_conn
 
 @app.route('/v1')
