@@ -1,20 +1,45 @@
-# 🎮 Steam Store Game API 🎮
 
-## Overview
-Welcome to the Steam Store Game API! This API provides access to information about games available on the Steam Store. Explore the world of gaming through a simple RESTful interface.
+# 🎮 Steam Games API
 
-## Usage
-1. **Authentication**: No authentication is currently required to access the endpoints of this API.
-2. **Endpoints**:
-   - **GET `/v1/games/{appid}`**: Retrieve a game from the Steam Game dataset by its appID.
-   - **DELETE `/v1/games/{appid}`**: Delete a game from the Steam Game dataset by its appID.
-   - **GET `/v1/games`**: Retrieve all games from the Steam Store.
-   - **POST `/v1/games`**: Add data of a new game to the dataset.
-3. **Interactive Documentation**: Explore and interact with the API using Swagger UI. Simply run the application and navigate to the Swagger UI documentation URL.
+## 🌐 Overview
 
-## Installation
-To run this API locally, follow these steps:
-1. Install Python (if not already installed).
-2. Clone this repository.
-3. **Include `config.json`**: Ensure that the `config.json` file, containing sensitive configuration details, is included in the project directory. If using Git, make sure it's not listed in `.gitignore`.
-4. Install the required dependencies listed in `requirements.txt` by running:
+The Steam Games API provides access to a dataset of Steam games predating 2019. It allows users to search, retrieve, delete, and add game information from the Steam Game database. This API is documented using Swagger UI for easy interaction and testing.
+
+## 📌 API Version
+
+1.0.0
+
+## 📊 Data Sources
+
+This API uses data collected from:
+- [Steam Store Games (Clean Dataset)]([https://www.kaggle.com/datasets/nikdavis/steam-store-game])
+- Steam APIs
+
+The data provides insights into various aspects of games on the store, such as game genre and the estimated number of owners. More details can be found in the API under the "Support" and "More_info" schemas.
+
+## 🔗 API Base URL
+
+`https://api.yourdomain.com/v1/` (Replace `https://api.yourdomain.com/` with the actual URL where the API is hosted)
+
+## 📡 Endpoints
+
+### 🔍 Search for a Game
+
+- **GET** `/games/{appid}`: Retrieve a game from the Steam Game database by its appID.
+
+### ❌ Delete Game Data
+
+- **DELETE** `/games/{appid}`: Delete a game from the Steam Game database by its appID.
+
+### 📋 Search for Games
+
+- **GET** `/games`: Retrieve all games from the Steam Store.
+
+### ➕ Add a Game
+
+- **POST** `/games`: Add data of a new game.
+
+
+## ©️ License
+
+This API is available under the CC BY-NC 3.0 license. More details can be found at [Creative Commons](https://creativecommons.org/licenses/by-nc/3.0/).
