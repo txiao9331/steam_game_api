@@ -1,0 +1,286 @@
+openapi: 3.0.3
+info:
+  title: Steam Games API
+  description: |-
+    This API exposes the Steam Games dataset predating mai 2019. Here is the data sources:
+    * [Steam Store Games (Clean dataset)](https://www.kaggle.com/datasets/nikdavis/steam-store-games) 
+    
+    Using data gathered from the Steam Store and SteamSpy APIs, this dataset provides information about various aspects of games on the store, such as its genre and the estimated number of owners.
+    * more information about [Gathering Data from the Steam Store API using Python](https://nik-davis.github.io/posts/2019/steam-data-collection/)
+  contact:
+    email: xiaobo.teng93@gmail.com
+  license:
+    name: CC BY-NC 3.0
+    url: https://creativecommons.org/licenses/by-nc/3.0/
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /v1/games/{appid}:
+    get:
+      tags: 
+        - Search for a game
+      summary: Retrieve a game from Steam Game dataset by its appID
+      description: Return all the information about a game
+      parameters:
+        - name: appid
+          in: path
+          description: Steam AppID of the game
+          example: 11190
+          required: true
+          schema:
+            type: string
+        - name: include_details
+          in: query
+          example: 0
+          description: Whether or not to display more_info (0 or 1)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'          
+        '404':
+          description: Game not found
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+      security:
+        - api_auth: []
+    delete:
+      tags:
+        - Delete the data of a game
+      summary: Delete a gram from Steam Game dataset by its appID
+      parameters:
+        - in: path
+          name: appid
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: AppID of the game to delete
+      responses:
+        '204':
+          description: Game deleted successfully
+        '404':
+          description: Game not found
+        '500':
+          description: Internal server error
+  /v1/games:
+    get:
+      tags: 
+        - Search for games
+      summary: Retrieve all games from the Steam Store
+      description: Return all the information about all the games from steam store
+      parameters:
+        - name: page
+          in: query
+          example: 1
+          description: Index of the page (used for pagination)
+          schema:
+            type: integer
+        - name: page_size
+          in: query
+          example: 30
+          description: Number of games per page (used for pagination)
+          schema:
+            type: integer
+        - name: include_details
+          in: query
+          example: 0
+          description: Whether or not to display more_info (0 or 1)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  movies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Game'
+                  next_page:
+                    type: integer
+                    example: 1
+                  last_page:
+                    type: integer
+                    example: 903
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+      security:
+        - api_auth: []
+    post:
+      tags: 
+        - Add a game
+      summary: Add data of a new game
+      requestBody:
+        required: True
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                appid:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: Title of Game
+                release_date:
+                  type: string
+                  format: date
+                english:
+                  type: integer
+                  example: 1
+                developer:
+                  type: string
+                  example: name of developer
+                platforms:
+                  type: string
+                  example: windows;mac;linux
+                required_age:
+                  type: integer
+                  example: 0
+                categories:
+                  type: string
+                  example: Multi-player;Single-player
+                genres:
+                  type: string
+                  example: Action;Adventure
+                tags:
+                  type: string
+                  example: Action;Sci-fi;Multiplayer
+                achievements:
+                  type: integer
+                  example: 30
+                positive_ratings:
+                  type: integer
+                  example: 300
+                negative_ratings:
+                  type: integer
+                  example: 30
+                price:
+                  type: number
+                  example: 1.99
+                short_description:
+                  type: string
+                  example: The short description of the game
+                website:
+                  type: string
+                support_url:
+                  type: string
+                support_email:
+                  type: string
+      responses:
+        '201':
+          description: Game added successfully
+        '400':
+          description: Invalid request body
+        '500':
+          description: Internal server error
+      security:
+        - api_auth: []
+components:
+  schemas:
+    Support:
+      required:
+        - appid
+      type: object
+      properties:
+        support_email:
+          type: string
+          example: support@frogwares.com
+        support_url:
+          type: string
+          format: url
+          example: http://frogwares.com/support/
+        website:
+          type: string
+          format: url
+          example: http://frogwares.com/
+          
+    More_info:
+      required:
+        - appid
+      type: object
+      properties:
+        positive_ratings:
+          type: integer
+          description: number of positive_ratings
+          example: 300
+        negative_ratings:
+          type: integer
+          description: number of negative_ratings
+          example: 94
+        categories:
+          type: string
+          example: Single-player
+        support:
+          type: array
+          items:
+            $ref: '#/components/schemas/Support'
+            
+    Game:
+      required:
+        - appid
+      type: object
+      properties:
+        appid:
+          type: integer
+          example: 11190
+        title:
+          type: string
+          example: Sherlock Holmes versus Jack the Ripper
+        release_date:
+          type: string
+          format: date
+          example: 2009-12-23
+        developer:
+          type: string
+          example: Frogwares
+        achievements:
+          type: integer
+          example: 0
+          description: number of the achievements
+        genres:
+          type: string
+          example: Adventure;RPG
+        description:
+          type: string
+          example: Recognized as one of the best licenses in adventure gaming and lauded by the international press, Sherlock Holmes is back with an investigation that is sure to be the most horrifying of the series. In this great new adventure, the famous detective chases against the most threatening serial killer England has ever known - Jack the Ripper.
+        isEnglish:
+          type: boolean
+          example: True
+        isRequiredAge:
+          type: boolean
+          example: False
+        price:
+          type: integer
+          example: 6.99
+        tags:
+          type: string
+          example: Adventure;Point & Click;Detective
+        platforms:
+          type: string
+          example: windows
+        more_info:
+          type: array
+          description: more information about the game, such as ratings and detailed description
+          items:
+            $ref: '#/components/schemas/More_info'
+        
+  securitySchemes:
+    api_auth:
+      type: http
+      scheme: basic
+      description: Please authenticate to use the API
