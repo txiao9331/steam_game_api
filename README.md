@@ -42,7 +42,7 @@ The data provides insights into various aspects of games on the store, such as g
 ## 📝 Examples
 
 Here is screenshot of our API
-![Example Image](img/swagger.png)
+![Example Image](img/swagger.PNG)
 
 ## ©️ License
 
