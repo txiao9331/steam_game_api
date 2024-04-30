@@ -39,6 +39,10 @@ The data provides insights into various aspects of games on the store, such as g
 
 - **POST** `/games`: Add data of a new game.
 
+## 📝 Examples
+
+Here is screenshot of our API
+![Example Image](img/swagger.png)
 
 ## ©️ License
 
