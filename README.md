@@ -19,7 +19,7 @@ The data provides insights into various aspects of games on the store, such as g
 
 ## 🔗 API Base URL
 
-`https://api.yourdomain.com/v1/` (Replace `https://api.yourdomain.com/` with the actual URL where the API is hosted)
+`http://localhost:5000/v1`
 
 ## 📡 Endpoints
 
