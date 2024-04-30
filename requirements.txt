@@ -1,0 +1,4 @@
+Flask
+pymysql
+flask-basicauth
+flask-swagger-ui
